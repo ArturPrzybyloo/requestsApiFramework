@@ -1,0 +1,5 @@
+base_url : https://bookstore.toolsqa.com
+api_path : v1
+username: test_user
+password: Pass@123
+user_id: 3d9a7c4f-3867-4d70-aad1-9b0fed30f01c
