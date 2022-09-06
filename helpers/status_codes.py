@@ -4,5 +4,6 @@ class StatusCodes:
     INTERNAL_ERROR_SERVER = 500
     CREATED = 201
     NO_CONTENT = 204
+    UNAUTHORIZED = 401
 
 
