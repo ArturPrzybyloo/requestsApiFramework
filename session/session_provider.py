@@ -26,7 +26,7 @@ class SessionProvider:
     def new_user_session(self, user_name, password, status="Success"):
         """Returns session for newly created user"""
         session = requests.Session()
-        user = User(user_name, password).create_user()
+        user, _ = User(user_name, password).create_user()
         response = session.post(EndpointBuilder.generate_token(), json=User(user_name=user.user_name,
                                                                             password=user.password).body).json()
         token_created = TokenViewModel.from_json(response)
