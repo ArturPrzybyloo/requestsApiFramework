@@ -4,7 +4,7 @@ import requests
 
 from helpers.assertion_utils import verify_response_status_code
 from helpers.status_codes import StatusCodes
-from models.utils_models import MessageModal
+from models.utils_models import MessageModal, TokenViewModel
 from requestsUtils.endpoint_builder import EndpointBuilder
 
 
@@ -26,9 +26,18 @@ class User:
         session = requests.Session()
         response = session.post(EndpointBuilder.create_user(), json=self.body)
         verify_response_status_code(response, status_code)
-        user_register = CreateUserResult.from_json(response.json())
-        self.id = user_register.user_id[0]
-        return self
+        if status_code != StatusCodes.CREATED:
+            response = MessageModal.from_json(response.json())
+        else:
+            response = CreateUserResult.from_json(response.json())
+            self.id = response.user_id[0]
+        return self, response
+
+    def authorize(self, session, status_code=StatusCodes.OK):
+        response = session.post(EndpointBuilder.generate_token(), json=self.body)
+        verify_response_status_code(response, status_code)
+        response = TokenViewModel.from_json(response.json())
+        return self, response
 
     @classmethod
     def get_user_by_id(cls, session, user_id, status_code=StatusCodes.OK):
@@ -45,6 +54,11 @@ class User:
     def delete_user(cls, session, user_id, status_code=StatusCodes.OK):
         response = session.delete(EndpointBuilder.user_by_id(user_id))
         verify_response_status_code(response, status_code)
+        if status_code != StatusCodes.OK:
+            response = MessageModal.from_json(response.json())
+        else:
+            response = GetUserResult.from_json(response.json())
+        return response
 
 
 class TokenViewModel:

@@ -5,5 +5,7 @@ class StatusCodes:
     CREATED = 201
     NO_CONTENT = 204
     UNAUTHORIZED = 401
+    NOT_ACCEPTABLE = 406
+    BAD_REQUEST = 400
 
 
