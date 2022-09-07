@@ -14,7 +14,7 @@ class EndpointBuilder:
         return f'{cls.base_account}/GenerateToken'
 
     @classmethod
-    def get_user_by_id(cls, uuid):
+    def user_by_id(cls, uuid):
         return f'{cls.base_account}/User/{uuid}'
 
     @classmethod

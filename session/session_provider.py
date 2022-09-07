@@ -35,4 +35,4 @@ class SessionProvider:
         if status:
             session.headers.update({'Authorization': token_created.token})
             session.headers.update({'authorization': f'Basic {encoded.decode()}'})
-        return session, user.user_id
+        return session, user.id

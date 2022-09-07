@@ -18,4 +18,4 @@ if __name__ == '__main__':
     # book = Book.find_book_by_title(books, "Git Pocket Guide")
     book = Book.get_book_by_isbn(session, "9781491950296")
     Book.add_book_to_user(session, config.USER_ID, book.isbn)
-    Book.delete_book_from_user(session, user.user_id, book.isbn)
+    Book.delete_book_from_user(session, user.id, book.isbn)
