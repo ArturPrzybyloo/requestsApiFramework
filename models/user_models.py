@@ -4,6 +4,7 @@ import requests
 
 from helpers.assertion_utils import verify_response_status_code
 from helpers.status_codes import StatusCodes
+from models.book_models import Book
 from models.utils_models import MessageModal, TokenViewModel
 from requestsUtils.endpoint_builder import EndpointBuilder
 
@@ -72,13 +73,17 @@ class CreateUserResult:
 
 
 class GetUserResult:
-    def __init__(self, userId, username, books):
+    def __init__(self, userId, username, books: list):
         self.id = userId,
         self.username = username
         self.books = books
+        self.books_objects = []
+        for book in books:
+            self.books_objects.append(Book.from_json(book))
 
     @classmethod
     def from_json(cls, json_dict):
         json_string = json.dumps(json_dict)
         json_dict = json.loads(json_string)
         return cls(**json_dict)
+
