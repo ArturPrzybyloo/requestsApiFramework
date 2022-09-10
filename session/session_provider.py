@@ -4,6 +4,7 @@ import requests
 from config import config
 from models.user_models import User, TokenViewModel
 from requestsUtils.endpoint_builder import EndpointBuilder
+from assertpy import assert_that
 
 
 class SessionProvider:
@@ -18,7 +19,7 @@ class SessionProvider:
                                                                             password=self.password).body).json()
         token_created = TokenViewModel.from_json(response)
         encoded = base64.b64encode(f'{config.USERNAME}:{config.PASSWORD}'.encode('ascii'))
-        assert token_created.status == "Success"
+        assert_that(token_created.status).is_equal_to("Success")
         session.headers.update({'Authorization': token_created.token})
         session.headers.update({'authorization': f'Basic {encoded.decode()}'})
         return session
@@ -31,7 +32,7 @@ class SessionProvider:
                                                                             password=user.password).body).json()
         token_created = TokenViewModel.from_json(response)
         encoded = base64.b64encode(f'{user_name}:{password}'.encode('ascii'))
-        assert token_created.status == status
+        assert_that(token_created.status).is_equal_to(status)
         if status:
             session.headers.update({'Authorization': token_created.token})
             session.headers.update({'authorization': f'Basic {encoded.decode()}'})
