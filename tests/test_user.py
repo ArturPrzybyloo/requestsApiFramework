@@ -1,16 +1,13 @@
 import uuid
-
-import pytest
-
 from helpers.status_codes import StatusCodes
 from models.user_models import User
 from config import config
 from assertpy import assert_that
 
-from tests.base_test import BaseTest
+from tests.base_test import TestBase
 
 
-class UserTests(BaseTest):
+class TestUsers(TestBase):
     def test_create_user(self):
         # Get user and verify that he have empty books collection
         user = User.get_user_by_id(self.session, self.user_id)
@@ -48,4 +45,4 @@ class UserTests(BaseTest):
             .authorize(self.session)
         assert_that(response.status).is_equal_to("Failed")
         assert_that(response.result).is_equal_to("User authorization failed.")
-        assert_that(response.token).is_not_none()
+        assert_that(response.token).is_none()
