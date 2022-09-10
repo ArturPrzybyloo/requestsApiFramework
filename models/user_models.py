@@ -54,25 +54,8 @@ class User:
     def delete_user(cls, session, user_id, status_code=StatusCodes.OK):
         response = session.delete(EndpointBuilder.user_by_id(user_id))
         verify_response_status_code(response, status_code)
-        if status_code != StatusCodes.OK:
-            response = MessageModal.from_json(response.json())
-        else:
-            response = GetUserResult.from_json(response.json())
+        response = MessageModal.from_json(response.json())
         return response
-
-
-class TokenViewModel:
-    def __init__(self, token, expires, status, result):
-        self.token = token
-        self.expire = expires
-        self.status = status
-        self.result = result
-
-    @classmethod
-    def from_json(cls, json_dict):
-        json_string = json.dumps(json_dict)
-        json_dict = json.loads(json_string)
-        return cls(**json_dict)
 
 
 class CreateUserResult:
