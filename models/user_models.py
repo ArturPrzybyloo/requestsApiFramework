@@ -77,13 +77,16 @@ class GetUserResult:
         self.id = userId,
         self.username = username
         self.books = books
-        self.books_objects = []
-        for book in books:
-            self.books_objects.append(Book.from_json(book))
+
 
     @classmethod
     def from_json(cls, json_dict):
         json_string = json.dumps(json_dict)
         json_dict = json.loads(json_string)
-        return cls(**json_dict)
+        books_objects = []
+        for book in json_dict['books']:
+            books_objects.append(Book.from_json(book))
+        return cls(userId=json_dict['userId'],
+                   username=json_dict['username'],
+                   books=books_objects)
 

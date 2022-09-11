@@ -17,7 +17,7 @@ class TestBooks(TestBase):
         Book.add_book_to_user(self.new_user_session, self.user_id, books[0].isbn)
 
         user = User.get_user_by_id(self.new_user_session, self.user_id)
-        assert_that(user.books_objects[0].isbn).is_equal_to(books[0].isbn)
+        assert_that(user.books[0].isbn).is_equal_to(books[0].isbn)
 
     def test_delete_book_from_user(self):
         #  Adds and Deletes book from user and verify that it have been deleted
@@ -26,7 +26,7 @@ class TestBooks(TestBase):
         Book.delete_book_from_user(self.new_user_session, self.user_id, books[6].isbn)
 
         user = User.get_user_by_id(self.new_user_session, self.user_id)
-        assert_that(user.books_objects[0].isbn).is_equal_to([])
+        assert_that(user.books[0].isbn).is_equal_to([])
 
 
 
